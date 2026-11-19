@@ -10,14 +10,14 @@ class ClothingType(Enum):
 
 
 class Clothing:
-    def __init__(self, name, description, location, colour, size, item_type: ClothingType ):
+    def __init__(self, name, description, location, colour, size, item_type: ClothingType):
         self.name = name
         self.description = description
         self.location = location
         self.colour = colour
         self.size = size
         self.item_type = item_type
-   
+
     def __del__(self):
         print(f"Object Clothing '{self.name}' is being destroyed")
 
@@ -42,25 +42,28 @@ class Clothing:
     def set_name(self, name: str):
         self.name = name
 
-    def set_description(self):
+    def set_description(self, description: str):
         self.description = description
 
-    def set_location(self):
+    def set_location(self, location: str):
         self.location = location
 
-    def set_colour(self):
+    def set_colour(self, colour: str):
         self.colour = colour
 
-    def set_size(self):
+    def set_size(self, size: str):
         self.size = size
 
-    def set_item_type(self):
+    def set_item_type(self, item_type: ClothingType):
         if not isinstance(item_type, ClothingType):
             raise TypeError("item_type must be a ClothingType")
         self.item_type = item_type
 
     def get_info(self) -> str:
-        return (f"Name: {self.name}, " f"Description: {self.description}, " f"Type: {self.item_type.name}, "
+        return (
+            f"Name: {self.name}, "
+            f"Description: {self.description}, "
+            f"Type: {self.item_type.name}, "
             f"Size: {self.size}, "
             f"Colour: {self.colour}, "
             f"Location: {self.location}"
@@ -71,14 +74,13 @@ class Clothing:
             ClothingType.JACKET,
             ClothingType.SWEATER
         )
-
         if is_cold:
             return self.item_type in warm_clothes
-
         return self.item_type not in warm_clothes
 
     def __str__(self) -> str:
         return self.get_info()
+
 
 class Wardrobe:
     def __init__(self):
@@ -103,7 +105,6 @@ class Wardrobe:
         if not self.items:
             print("The wardrobe is empty")
             return
-
         for item in self.items:
             print(item)
 
@@ -112,34 +113,31 @@ def goOut(clothing_list: list[Clothing]) -> tuple[int, bool]:
     unique_types = {item.item_type for item in clothing_list}
     count = len(unique_types)
     ready = count > 3
-
     return count, ready
 
 
 if __name__ == "__main__":
     wardrobe = Wardrobe()
-
     c1 = Clothing("Blue Shirt", "Cotton casual shirt", "Shelf 1", "Blue", "42", ClothingType.SHIRT)
     c2 = Clothing("Denim Jeans", "Blue classic jeans", "Shelf 2", "Blue", "52", ClothingType.JEANS)
     c3 = Clothing("Winter Jacket", "Warm ski jacket", "Corridor", "Black", "48", ClothingType.JACKET)
     c4 = Clothing("Sneakers", "Running shoes", "Floor", "White", "40", ClothingType.SHOES)
-    #для всьогго одягу який є в шафі вивести дескріптіон і коляр 
+
+    # для всього одягу який є в шафі вивести description і colour
     wardrobe.add_item(c1)
     wardrobe.add_item(c2)
     wardrobe.add_item(c3)
     wardrobe.add_item(c4)
 
-
     for item in wardrobe.items:
         print(f"colour {item.get_colour()}, description {item.get_description()}")
-        
+
     print("=== Wardrobe Items ===")
     wardrobe.display()
 
     print("\n=== Access Methods ===")
     print("Old colour:", c1.colour)
-
-    c1.colour = "Red"
+    c1.set_colour("Red")
     print("New colour:", c1.colour)
 
     print("\n=== Sorted by Size ===")
@@ -147,7 +145,6 @@ if __name__ == "__main__":
     wardrobe.display()
 
     count, ready = goOut(wardrobe.items)
-
     print("\n=== Going Outside ===")
     print("Number of unique clothing types:", count)
     print("Ready to go out:", "Yes" if ready else "No")
@@ -161,5 +158,4 @@ if __name__ == "__main__":
     print("\n=== Removing an Item ===")
     wardrobe.remove_item(c4)
     wardrobe.display()
-
-    print("\nEnd of program")
+    
